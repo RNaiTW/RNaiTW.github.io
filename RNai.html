@@ -133,16 +133,22 @@
             star.style.top = Math.random() * window.innerHeight + 'px';
             document.body.appendChild(star);
         }
-
-        // 每3秒更新每個星星的位置和可見性
-        setInterval(function() {
-            let stars = document.querySelectorAll('.particle_star:not(.selected)');
-            stars.forEach(function(star) {
-                star.style.left = (Math.random() - 0.5) * 20 + star.offsetLeft + 'px';
-                star.style.top = (Math.random() - 0.5) * 20 + star.offsetTop + 'px';
-                star.style.opacity = opacities[Math.floor(Math.random() * opacities.length)];
-            });
-        }, 3000);
+	// 創建一個數組來存儲不同的不透明度值
+	    let opacities = [1, 0.7, 0.5 ,0.3, 0];
+	// 改星星大小(暫時廢棄她媽一只報錯)
+	    let sizes = ['8px', '6px', '3px'];
+	    
+	
+	// 每3秒更新每個星星的位置和可見性
+		setInterval(function() {
+   		let stars = document.querySelectorAll('.particle_star:not(.selected)');
+    		stars.forEach(function(star) {
+        	star.style.left = (Math.random() - 0.5) * 20 + star.offsetLeft + 'px';
+        	star.style.top = (Math.random() - 0.5) * 20 + star.offsetTop + 'px';
+        // 從數組中隨機選擇一個不透明度值
+        star.style.opacity = opacities[Math.floor(Math.random() * opacities.length)];
+    });
+}, 3000);
 
         // 當滑鼠移動時，讓星星向滑鼠的位置移動
         document.body.addEventListener('mousemove', function(event) {
@@ -174,6 +180,7 @@
                 }
             });
         });
+
         document.body.addEventListener('mousemove', function(event) {
             if (selectedStar) {
                 selectedStar.style.left = event.clientX + 'px';
