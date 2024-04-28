@@ -3,8 +3,93 @@
 <head>
     <title>(阿奈RNai)個人自介</title>
     <style>
+		/* 改變leftOverlay-text調整到中間 */
+		.centered-text {
+		text-align: center;
+		}
+		
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 10;
+            transform: translate(-50%, -50%);
+            transition: top 2s; /* 添加過渡效果 */
+        }
+        .container.active {
+            top: 80%;
+        }
+        /* spectrum讓inline-block在一行並排且運行動畫 */
+        .spectrum{
+            width: 30px;
+            height: 100px;
+            background: #000000;
+            display: inline-block;
+            border-radius: 40px;
+            transform-origin: bottom;
+            z-index: 10;
+            animation: dancing 1s ease-in-out infinite;
+        }
+        /* 讓每個區塊0.1+0.1s秒往上跳躍如同正在撥放中 */
+        .spectrum1{
+            background-color: #002FC9;
+            animation-delay: 0.1s;
+            z-index: 10;
+        }
+        .spectrum2{
+            background-color: #390F8A;
+            animation-delay: 0.2s;
+        }
+        .spectrum3{
+            background-color: #89083F;
+            animation-delay: 0.3s;
+        }
+        .spectrum4{
+            background-color: #CC0004;
+            animation-delay: 0.4s;
+        }
+        .spectrum5{
+            background-color: #DE2C00;
+            animation-delay: 0.5s;
+        }
+        .spectrum6{
+            background-color: #FF8900;
+            animation-delay: 0.6s;
+        }
+        .spectrum7{
+            background-color: #53D600;
+            animation-delay: 0.7s;
+        }
+        .spectrum8{
+            background-color: #ABF101;
+            animation-delay: 0.8s;
+        }
+        .spectrum9{
+            background-color: #FFEB20;
+            animation-delay: 0.9s;
+        }
+        .spectrum10{
+            background-color: #9933CD;
+            animation-delay: 1s;
+        }
+        @keyframes dancing{
+            0%{
+                transform: scaleY(0.1);
+            }
+            50%{
+                transform: scaleY(1);
+            }
+            100%{
+                transform: scaleY(0.1);
+            }
+        }
+        /* 複製他們並選轉180度如同影子 */
+        .container.down{
+            transform: rotateX(180deg) translate(-50%,-50%);
+            opacity: 0.3;
+        }
         body {
-            background-image: url("bg.jpg");
+            background-image: url("https://v.bootstrapmb.com/2021/4/heod9927/img/bg.jpg");
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center center;
@@ -30,23 +115,20 @@
         .particle_star.selected {
             transition: all 5s ease;
         }
-        #triangle {
-            width: 0;
-            height: 0;
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-            border-bottom: 50px solid rgba(15, 25, 25,10);
-            position: absolute;
-            z-index: 10;
-            left: -50;
-            top: -50%;
-            transform: rotate(90deg) translateY(50%);
-            cursor: pointer;
-            transition: left 1s;
+		        /* 新增四角形的樣式 */
+        #squarebusiness {
+            width: 5%; /* 四角形的寬度 */
+            height: 50px; /* 四角形的高度 */
+            background-color: #f00; /* 四角形的背景顏色 */
+            position: absolute; /* 使用絕對定位 */
+			z-index: 20; /*優先度*/
+			left:-10%;
+			top:0;
+			cursor: pointer;
         }
-        #triangle.active {
-            left: 100%;
-        }
+		#squarebusiness.active {
+			left: 0;
+		}
         #Rtriangle {
             width: 0;
             height: 0;
@@ -68,20 +150,36 @@
             background-color: rgba(55, 25, 25, 0.6);
             position: absolute;
             z-index: 10;
-            left: -100%;
+            left: 110%;
             top: -30%;
             width: 100%;
             height: 140%;
             transition: left 1s;
         }
         #overlay.active {
-            left: 0%;
+            left: 5%;
         }
         #innerOverlay {
-            background-color: rgba(100, 100, 75, 0.5);
+            background-color: rgba(100, 100, 55, 0.5);
             width: 50%;
             height: 50%;
         }
+        #leftOverlay {
+            background-color: rgba(217,217,217,0.5);
+            top: 0; /* 調整為與頂部對齊 */
+			z-index: -100;
+            left: -5%; /* 初始狀態設置為隱藏 */
+            width: 5%;
+            height: 100%;
+            transition: left 0.5s; /* 添加平滑過渡效果 */
+        }
+        #leftOverlay.active {
+            left: 0; /* 點擊按鈕後顯示 */
+        }
+		#leftOverlay.active {
+			width:5%;
+		}
+		
         #content {
             position: absolute;
             top: 50%;
@@ -96,8 +194,36 @@
     </style>
 </head>
 <body>
+	<div class="container">
+		<div class="spectrum spectrum1"></div>
+		<div class="spectrum spectrum2"></div>
+		<div class="spectrum spectrum3"></div>
+		<div class="spectrum spectrum4"></div>
+		<div class="spectrum spectrum5"></div>
+		<div class="spectrum spectrum6"></div>
+		<div class="spectrum spectrum7"></div>
+		<div class="spectrum spectrum8"></div>
+		<div class="spectrum spectrum9"></div>
+		<div class="spectrum spectrum10"></div>
+		</div>
+	<div class="container down">
+		<div class="spectrum spectrum1"></div>
+		<div class="spectrum spectrum2"></div>
+		<div class="spectrum spectrum3"></div>
+		<div class="spectrum spectrum4"></div>
+		<div class="spectrum spectrum5"></div>
+		<div class="spectrum spectrum6"></div>
+		<div class="spectrum spectrum7"></div>
+		<div class="spectrum spectrum8"></div>
+		<div class="spectrum spectrum9"></div>
+		<div class="spectrum spectrum10"></div>
+	</div>
     <div id="triangle"></div>
     <div id="Rtriangle"></div>
+	<div id="leftOverlay">
+		<div id="cantent2">
+		<h1 class="centered-text" style="font-size: 50px;">　　還沒弄好先預留空間</h1>
+	</div>
     <div id="overlay">
         <div id="content">
             <h1 style="font-size: 50px;">這裡是阿奈的主頁</h1>
@@ -112,17 +238,13 @@
         </div>
 
     </div>
-	<div id="overlay1">
-	<div id="overlay2">
-	<div id="overlay3">
-	<div id="overlay4">
-	<div id="overlay5">
-	<div id="overlay6">
+	<div id="squarebusiness">
+
 	
 
     <script>
         // 創建100個星星
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 190; i++) {
             createStar();
         }
 
@@ -192,13 +314,17 @@
         });
 
         // 切換 #overlay 的可見性
-        document.getElementById('triangle').addEventListener('click', function() {
-            document.getElementById('overlay').classList.toggle('active');
-        });
-
         document.getElementById('Rtriangle').addEventListener('click', function() {
             document.getElementById('overlay').classList.toggle('active');
         });
+		// 點擊 #Rtriangle 時切換兩個容器元素上的「活動」類
+		document.getElementById('Rtriangle').addEventListener('click', function() {
+		// 查詢具有「container」類別的所有元素，並在每個元素上切換「active」類
+			var containers = document.querySelectorAll('.container');
+					containers.forEach(function(container) {
+				container.classList.toggle('active');
+			});
+		});
     </script>
 </body>
 </html>
