@@ -192,8 +192,13 @@
             opacity: 1;
         }
     </style>
-</head>
-<body>
+	</head>
+	<body>
+	<!-- 添加時鐘畫布 -->
+	<div id="clock-container">
+		<canvas id="clockCanvas" width="800" height="800"></canvas>
+	</div>
+
 	<div class="container">
 		<div class="spectrum spectrum1"></div>
 		<div class="spectrum spectrum2"></div>
@@ -242,7 +247,42 @@
 
 	
 
-    <script>
+    <script>    
+	// 獲取畫布並初始化
+    var canvas = document.getElementById("clockCanvas");
+    var ctx = canvas.getContext("2d");
+
+    function drawClock() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 取得時間
+      var now = new Date();
+      var ms = now.getMilliseconds();
+      var seconds = now.getSeconds();
+      var minutes = now.getMinutes();
+      var hours = now.getHours() % 12;
+
+      var secondDeg = seconds * 6 + ms * 6 / 1000;
+      var minuteDeg = minutes * 6 + seconds / 10;
+      var hourDeg = hours * 30 + minutes / 2;
+
+      // 畫表盤
+      ctx.beginPath();
+      ctx.arc(400, 400, 200, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // 畫時間進度
+      var progress = [secondDeg, minuteDeg, hourDeg];
+      var colors = ["red", "blue", "green"];
+      for (var i = 0; i < progress.length; i++) {
+        ctx.strokeStyle = colors[i];
+        ctx.beginPath();
+        ctx.arc(400, 400, 200 - i * 20, -Math.PI / 2, Math.PI * 2 * progress[i] / 360 - Math.PI / 2);
+        ctx.stroke();
+      }
+    }
+
+    setInterval(drawClock, 1000);
         // 創建100個星星
         for (let i = 0; i < 190; i++) {
             createStar();
