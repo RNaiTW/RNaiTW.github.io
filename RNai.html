@@ -3,6 +3,45 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>(阿奈RNai)個人自介</title>
     <style>
+	    /* 新時鐘 */
+        body {
+            background-color: #000;
+            color: #666;
+            overflow: hidden;
+        }
+
+        .wrapper {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .timebox {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+        }
+
+        .timebox span {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 40px;
+            height: 18px;
+            transform-origin: -50% -50%;
+            margin-top: -9px;
+            margin-left: -20px;
+            text-align: right;
+        }
+
+        .on {
+            color: #fff;
+	}
+        /*新時鐘結尾1部分*/
 		/* 改變leftOverlay-text調整到中間 */
 		.centered-text {
 		text-align: center;
@@ -194,6 +233,7 @@
     </style>
 	</head>
 	<body class="vsc-initialized">
+	
 	<!-- 添加時鐘畫布 -->
 	<div id="clock-container">
 		<canvas id="clockCanvas" width="800" height="800" style="
@@ -202,7 +242,14 @@
     border-bottom-width: 900px;
 "></canvas>
 	</div>
-
+	/*新時鐘2部分*/
+	<div id="wrapper" class="wrapper">
+        <div id="monthBox" class="timebox monthbox"></div>
+        <div id="dateBox" class="timebox dateBox"></div>
+        <div id="hourbox" class="timebox hourbox"></div>
+        <div id="minutebox" class="timebox minutebox"></div>
+        <div id="secondbox" class="timebox secondbox"></div>
+	/*新時鐘2部分結尾*/
 	<div class="container">
 		<div class="spectrum spectrum1"></div>
 		<div class="spectrum spectrum2"></div>
@@ -255,7 +302,59 @@
 
 	
 
-    <script>    
+    <script>   
+	/*新時鐘3部分*/
+        // 時鐘代碼
+        const monthBox = document.getElementById("monthBox");
+        const dateBox = document.getElementById("dateBox");
+        const hourbox = document.getElementById("hourbox");
+        const minutebox = document.getElementById("minutebox");
+        const secondbox = document.getElementById("secondbox");
+
+        // 初始化
+        const initSpan = (box, max, unit) => {
+            for (let i = 0; i < max; i++) {
+                const span = document.createElement("span");
+                span.innerHTML = i < 10 ? "0" + i + unit : i + unit;
+                box.appendChild(span);
+            }
+        };
+
+        const textRound = (box, total, radius) => {
+            const spans = box.children;
+            for (let i = 0; i < spans.length; i++) {
+                spans[i].style.transform =
+                    "rotate(" + (360 / total) * i + "deg) translate(" + radius + "px)";
+            }
+        };
+
+        const rotateBox = (box, angle) => {
+            box.style.transform = "rotate(" + angle + "deg)";
+        };
+
+        // 初始化表盤
+        initSpan(monthBox, 12, "月");
+        initSpan(dateBox, 31, "日");
+        initSpan(hourbox, 24, "時");
+        initSpan(minutebox, 60, "分");
+        initSpan(secondbox, 60, "秒");
+
+        textRound(monthBox, 12, 50);
+        textRound(dateBox, 31, 80);
+        textRound(hourbox, 24, 110);
+        textRound(minutebox, 60, 140);
+        textRound(secondbox, 60, 170);
+
+        setInterval(() => {
+            const now = new Date();
+            rotateBox(monthBox, -30 * now.getMonth());
+            rotateBox(dateBox, -360 / 31 * (now.getDate() - 1));
+            rotateBox(hourbox, -30 * (now.getHours() % 12));
+            rotateBox(minutebox, -6 * now.getMinutes());
+            rotateBox(secondbox, -6 * now.getSeconds());
+        }, 1000);
+
+	/*新時鐘3部分結尾*/
 	// 獲取畫布並初始化
     var canvas = document.getElementById("clockCanvas");
     var ctx = canvas.getContext("2d");
